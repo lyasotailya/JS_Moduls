@@ -5,7 +5,46 @@ import { Magician } from '../character'
 import { Daemon } from '../character'
 import { Undead } from '../character'
 import { Zombie } from '../character'
-import { test } from "@jest/globals";
+import { test } from "@jest/globals"
+
+test('should level up and health mistake', () => {
+  let hero = new Undead('Nick')
+  hero.levelUp()
+  expect(hero).toEqual({
+      name: 'Nick',
+      type: 'Undead',
+      health: 100,
+      level: 2,
+      attack: 30,
+      defence: 30
+  });
+
+  hero.damage(1000)
+  expect(function() {
+      hero.levelUp()
+  }).toThrow(new Error('low health'));
+
+})
+
+test('should damage and health mistake', () => {
+  let hero = new Undead('Nick')
+  hero.levelUp()
+  hero.damage(15)
+  expect(hero).toEqual({
+      name: 'Nick',
+      type: 'Undead',
+      health: 89.5,
+      level: 2,
+      attack: 30,
+      defence: 30
+  });
+
+  hero.damage(1000)
+  expect(function() {
+      hero.damage(1)
+  }).toThrow(new Error('low health'));
+
+})
 
 test('should mistake', () => {
   expect(function() {
